@@ -3,7 +3,7 @@ from .generate_page import generate_page
 
 
 def generate_page_recursive(
-    dir_path_content: str, template_path: str, dest_dir_path: str
+    dir_path_content: str, template_path: str, dest_dir_path: str, basepath: str
 ) -> None:
     if not os.path.exists(dir_path_content):
         raise ValueError("Invalid source directory")
@@ -20,10 +20,12 @@ def generate_page_recursive(
         if os.path.isfile(item_path) and item_path[-3:] == ".md":
             print(f"index.md file found at {item_path}")
             item_dest_path_html: str = item_dest_path.replace(".md", ".html")
-            generate_page(item_path, "template.html", item_dest_path_html)
+            generate_page(item_path, "template.html", item_dest_path_html, basepath)
         elif os.path.isdir(item_path):
             print(f"dir found at {item_path}")
-            generate_page_recursive(item_path, "template.html", item_dest_path)
+            generate_page_recursive(
+                item_path, "template.html", item_dest_path, basepath
+            )
         else:
             print("\n\nPROBLEM WITH THIS ITEM:", item_path)
             raise ValueError(f"Invalid file type found in {dir_path_content}")
