@@ -1,5 +1,5 @@
-from textnode import TextNode, TextType
-from extraction_functions import extract_markdown_images, extract_markdown_links
+from .textnode import TextNode, TextType
+from .extraction_functions import extract_markdown_images, extract_markdown_links
 
 
 def split_nodes_delimiter(
@@ -100,3 +100,10 @@ if __name__ == "__main__":
     for node in new_nodes_3:
         print(node)
     print()
+
+    print("test split_nodes_link only link")
+    node_processed: list[TextNode] = split_nodes_links(
+        [TextNode("[< Back Home](/)", TextType.TEXT)]
+    )
+    for node in node_processed:
+        print(node)

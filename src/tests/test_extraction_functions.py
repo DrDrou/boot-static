@@ -1,6 +1,6 @@
 import unittest
 
-from extraction_functions import extract_markdown_images, extract_markdown_links
+from src.extraction_functions import extract_markdown_images, extract_markdown_links
 
 
 class TestExtractionFunctions(unittest.TestCase):

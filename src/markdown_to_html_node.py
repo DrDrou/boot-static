@@ -1,10 +1,10 @@
-from markdown_to_blocks import markdown_to_blocks
-from block_to_block_type import block_to_block_type, BlockType
-from text_to_textnodes import text_to_textnodes
-from text_node_to_html_node import text_node_to_html_node
-from textnode import TextNode
-from leafnode import LeafNode
-from parentnode import ParentNode
+from .markdown_to_blocks import markdown_to_blocks
+from .block_to_block_type import block_to_block_type, BlockType
+from .text_to_textnodes import text_to_textnodes
+from .text_node_to_html_node import text_node_to_html_node
+from .textnode import TextNode
+from .leafnode import LeafNode
+from .parentnode import ParentNode
 
 
 def markdown_to_html_node(md: str) -> ParentNode:
@@ -46,18 +46,15 @@ def markdown_to_html_node(md: str) -> ParentNode:
             block_parent_nodes.append(block_parent_node)
 
         elif block_type == BlockType.QUOTE:
-            quote_parent_nodes: list[ParentNode] = []
-            quotes: list[str] = [quote.strip(">") for quote in block.split("\n")]
-            for quote in quotes:
-                quote_nodes: list[TextNode] = text_to_textnodes(quote)
-                quote_nodes_html: list[LeafNode] = [
-                    text_node_to_html_node(textnode) for textnode in quote_nodes
-                ]
-                quote_parent_node: ParentNode = ParentNode("p", quote_nodes_html)
-                quote_parent_nodes.append(quote_parent_node)
+            quotes: list[str] = [quote.strip("> ") for quote in block.split("\n")]
+            quotes_joined: str = "\n".join(quotes)
+            quotes_textnodes: list[TextNode] = text_to_textnodes(quotes_joined)
+            quote_nodes_html: list[LeafNode] = [
+                text_node_to_html_node(textnode) for textnode in quotes_textnodes
+            ]
 
             block_parent_node: ParentNode = ParentNode(
-                tag="blockquote", children=quote_parent_nodes
+                tag="blockquote", children=quote_nodes_html
             )
             block_parent_nodes.append(block_parent_node)
 
@@ -130,3 +127,24 @@ This is another paragraph with _italic_ text and `code` here
     md_5 = "1. list 1\n2. list2 **bold**"
     html_node_5: ParentNode = markdown_to_html_node(md_5)
     print(html_node_5.to_html())
+
+    print("------------\n")
+
+    md_6 = """## Blog posts
+
+- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)
+- [Why Tom Bombadil Was a Mistake](/blog/tom)
+- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)
+"""
+    html_node_6: ParentNode = markdown_to_html_node(md_6)
+    print(html_node_6.to_html())
+
+    print("------------\n")
+
+    md_7 = """# Why Glorfindel is More Impressive than Legolas
+
+[< Back Home](/)
+
+![Glorfindel image](/images/glorfindel.png)"""
+    html_node_7: ParentNode = markdown_to_html_node(md_7)
+    print(html_node_7.to_html())

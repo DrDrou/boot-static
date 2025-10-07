@@ -1,5 +1,5 @@
-from textnode import TextType, TextNode
-from split_nodes import split_nodes_delimiter, split_nodes_images, split_nodes_links
+from .textnode import TextType, TextNode
+from .split_nodes import split_nodes_delimiter, split_nodes_images, split_nodes_links
 
 
 def text_to_textnodes(text: str) -> list[TextNode]:
@@ -18,3 +18,7 @@ if __name__ == "__main__":
     text = """**This is a bold [link](youtube.com)**"""
     nodes: list[TextNode] = text_to_textnodes(text)
     print(nodes)
+
+    link = "[< Back Home](/)"
+    nodes_2: list[TextNode] = text_to_textnodes(link)
+    print(nodes_2)
