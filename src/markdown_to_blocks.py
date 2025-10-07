@@ -1,0 +1,23 @@
+def markdown_to_blocks(markdown: str) -> None:
+    blocks: list[str] = [
+        string.strip("\n ") for string in markdown.split("\n\n") if string.strip("\n ")
+    ]
+    return blocks
+
+
+if __name__ == "__main__":
+    md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+
+
+    
+
+
+"""
+    print(markdown_to_blocks(md))

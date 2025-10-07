@@ -1,9 +1,10 @@
-from textnode import TextNode
+from copy_and_replace_dir import copy_and_replace_dir
 
 
 def main() -> None:
-    node = TextNode("This is some text", "link", "http://youtube.com")
-    print(node)
+    print("Initializing public directory...")
+    copy_and_replace_dir(source="static", destination="public")
+    print("Public directory initialized!\n")
 
 
 if __name__ == "__main__":
